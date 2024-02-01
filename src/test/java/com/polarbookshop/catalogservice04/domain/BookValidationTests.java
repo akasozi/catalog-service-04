@@ -1,0 +1,88 @@
+package com.polarbookshop.catalogservice04.domain;
+
+
+import jakarta.validation.Validation;
+import jakarta.validation.ValidatorFactory;
+import org.junit.jupiter.api.BeforeAll;
+import jakarta.validation.Validator;
+import jakarta.validation.ConstraintViolation;
+import org.junit.jupiter.api.Test;
+
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class BookValidationTests {
+
+    private static Validator validator;
+
+    @BeforeAll
+    static void setUp() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+    }
+
+    @Test
+    void whenAllFieldsCorrectThenValidationSucceeds() {
+        var book = new Book("1234567890", "Title", "Author", 9.90);
+        Set<ConstraintViolation<Book>> violations = validator.validate(book);
+        assertThat(violations).isEmpty();
+    }
+
+    @Test
+    void whenIsbnDefinedButIncorrectThenValidationFails() {
+        var book = new Book("a1234567890", "Title", "Author", 9.90);
+        Set<ConstraintViolation<Book>> violations = validator.validate(book);
+        assertThat(violations).hasSize(1);
+        assertThat(violations.iterator().next().getMessage())
+                .isEqualTo("The ISBN format must be valid.");
+    }
+
+    @Test
+    void whenPriceIsDefinedButNegativeThenValidationFails() {
+        var book = new Book("1234567890", "Title", "Author", -9.90);
+        Set<ConstraintViolation<Book>> violations = validator.validate(book);
+        assertThat(violations).hasSize(1);
+        assertThat(violations.iterator().next().getMessage())
+                .isEqualTo("The book price must be greater than zero.");
+
+    }
+
+    @Test
+    void whenPriceIsNotDefinedThenValidationFails() {
+        var book = new Book("1234567890", "Title", "Author", null);
+        Set<ConstraintViolation<Book>> violations = validator.validate(book);
+        assertThat(violations).hasSize(1);
+        assertThat(violations.iterator().next().getMessage())
+                .isEqualTo("The book price must be defined.");
+    }
+
+    @Test
+    void whenPriceDefinedButZeroThenValidationFails() {
+        var book = new Book("1234567890", "Title", "Author", 0.00);
+        Set<ConstraintViolation<Book>> violations = validator.validate(book);
+        assertThat(violations).hasSize(1);
+        assertThat(violations.iterator().next().getMessage())
+                .isEqualTo("The book price must be greater than zero.");
+    }
+
+    @Test
+    void whenAuthorIsBlankThenValidationFails() {
+        var book = new Book("1234567890", "Title", "", 9.90);
+        Set<ConstraintViolation<Book>> violations = validator.validate(book);
+        assertThat(violations).hasSize(1);
+        assertThat(violations.iterator().next().getMessage())
+                .isEqualTo("The book author must be defined.");
+    }
+
+    @Test
+    void whenTitleIsNotDefinedThenValidationFails() {
+        var book = new Book("1234567890", "", "Thomas Vitale", 9.90);
+        Set<ConstraintViolation<Book>> violations = validator.validate(book);
+        assertThat(violations).hasSize(1);
+        assertThat(violations.iterator().next().getMessage())
+                .isEqualTo("The book title must be defined.");
+
+
+    }
+}
