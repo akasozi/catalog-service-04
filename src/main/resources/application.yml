@@ -9,3 +9,28 @@ server:
 
 polar:
   greeting: Welcome to the local book catalog!
+
+spring:
+  application:
+    name: catalog-service-04
+  config:
+    import: "optional:configserver:"
+  cloud:
+    uri: http://localhost:8888
+    request-connect-timeout: 5s
+    request-read-timeout: 5s
+    fail-fast: false
+    retry:
+      max-attempts: 6
+      initial-interval: 1s # 1000
+      max-intervals: 2s # 2000
+      multiplier: 1.1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+
+
+
