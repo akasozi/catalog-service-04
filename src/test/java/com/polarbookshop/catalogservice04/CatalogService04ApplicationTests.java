@@ -19,7 +19,7 @@ class CatalogService04ApplicationTests {
 	@Test
 	void whenPostRequestThenBookCreated() {
 
-		var expectedBook = Book.of("1231231231", "Cloud Native Spring in Action", "Thomas Vitalle", 35.99);
+		var expectedBook = Book.of("1231231231", "Cloud Native Spring in Action", "Thomas Vitalle", 35.99, "Polarsophia");
 
 		webTestClient
 				.post()
@@ -36,7 +36,7 @@ class CatalogService04ApplicationTests {
 	@Test
 	void whenGetRequestWithIdThenBookReturned() {
 		var bookIsbn = "1231231230";
-		var bookToCreate = Book.of(bookIsbn, "Cloud Native Spring in Action", "Thomas Vitalle", 36.99);
+		var bookToCreate = Book.of(bookIsbn, "Cloud Native Spring in Action", "Thomas Vitalle", 36.99, "Polarsophia");
 
 		Book expectedBook = webTestClient
 				.post()
@@ -62,7 +62,7 @@ class CatalogService04ApplicationTests {
 	@Test
 	void whenPutRequestThenBookUpdated() {
 		var bookIsbn = "1231231234";
-		var bookToCreate = Book.of(bookIsbn, "Cloud Native Spring in Action", "Thomas Vitalle", 36.99);
+		var bookToCreate = Book.of(bookIsbn, "Cloud Native Spring in Action", "Thomas Vitalle", 36.99, "Polarsophia");
 
 		Book expectedBook = webTestClient
 				.post()
@@ -73,7 +73,7 @@ class CatalogService04ApplicationTests {
 				.expectBody(Book.class).value(book -> assertThat(book).isNotNull())
 				.returnResult().getResponseBody();
 
-		var bookToUpdate = Book.of(bookIsbn, "Java the Complete reference!", "P.J. Deitel", 19.99);
+		var bookToUpdate = Book.of(bookIsbn, "Java the Complete reference!", "P.J. Deitel", 19.99, "Polarsophia");
 
 		webTestClient
 				.put()
@@ -92,7 +92,7 @@ class CatalogService04ApplicationTests {
 	@Test
 	void whenDeleteRequestThenBookDeleted() {
 		var bookIsbn = "1231231234";
-		var bookToCreate = Book.of(bookIsbn, "Cloud Native Spring in Action", "Thomas Vitalle", 36.99);
+		var bookToCreate = Book.of(bookIsbn, "Cloud Native Spring in Action", "Thomas Vitalle", 36.99, "Polarsophia");
 
 		 webTestClient
 				.post()
@@ -122,7 +122,7 @@ class CatalogService04ApplicationTests {
 	@Test
 	void whenPostRequestWithDuplicateIsbnThenBookAlreadyExistsExceptionThrown() {
 		var bookIsbn = "1231231235";
-		var bookToCreate = Book.of(bookIsbn, "Cloud Native Spring in Action", "Thomas Vitalle", 36.99);
+		var bookToCreate = Book.of(bookIsbn, "Cloud Native Spring in Action", "Thomas Vitalle", 36.99, "Polarsophia");
 
 		webTestClient
 				.post()

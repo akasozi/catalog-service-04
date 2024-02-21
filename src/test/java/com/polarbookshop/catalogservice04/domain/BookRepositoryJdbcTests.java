@@ -34,7 +34,7 @@ class BookRepositoryJdbcTests {
     @Test
     void findBookByIsbnWhenExisting() {
         var bookIsbn = "1234561237";
-        var book = Book.of(bookIsbn, "Game of Thrones", "John Snow", 12.90);
+        var book = Book.of(bookIsbn, "Game of Thrones", "John Snow",12.90, "Polarsophia");
         jdbcAggregateTemplate.insert(book);
 
         Optional<Book> actualBook = bookRepository.findByIsbn(bookIsbn);
@@ -55,9 +55,9 @@ class BookRepositoryJdbcTests {
 
     @Test
     void findAllBooks() {
-        var book1 = Book.of("1234567891", "Sherlok Homes", "Unknown", 10.11);
-        var book2 = Book.of("1234567892", "No Rules Rules!", "Reid Hastings", 9.99);
-        var book3 = Book.of("1234567893", "Cloud Native Spring in Action", "Thomas Vitalle", 8.99);
+        var book1 = Book.of("1234567891", "Sherlok Homes", "Unknown", 10.11, "Polarsophia");
+        var book2 = Book.of("1234567892", "No Rules Rules!", "Reid Hastings", 9.99, "Polarsophia");
+        var book3 = Book.of("1234567893", "Cloud Native Spring in Action", "Thomas Vitalle", 8.99, "Polarsophia");
 
         jdbcAggregateTemplate.insert(book1);
         jdbcAggregateTemplate.insert(book2);
@@ -75,7 +75,7 @@ class BookRepositoryJdbcTests {
     @Test
     void existsByIsbnWhenExisting() {
         var bookIsbn = "1234567891";
-        var bookToCreate = Book.of(bookIsbn, "Sherlok Homes", "Unknown", 10.11);
+        var bookToCreate = Book.of(bookIsbn, "Sherlok Homes", "Unknown", 10.11, "Polarsophia");
         jdbcAggregateTemplate.insert(bookToCreate);
 
         boolean existing = bookRepository.existsByIsbn(bookIsbn);
@@ -92,7 +92,7 @@ class BookRepositoryJdbcTests {
     @Test
     void deleteByIsbn() {
         var bookIsbn = "1234567891";
-        var bookToCreate = Book.of(bookIsbn, "Sherlok Homes", "Unknown", 10.11);
+        var bookToCreate = Book.of(bookIsbn, "Sherlok Homes", "Unknown", 10.11, "Polarsophia");
         var persistedBook = jdbcAggregateTemplate.insert(bookToCreate);
         bookRepository.deleteByIsbn(bookIsbn);
 
