@@ -16,15 +16,16 @@ spring:
   config:
     import: "optional:configserver:"
   cloud:
-    uri: http://localhost:8888
-    request-connect-timeout: 5s
-    request-read-timeout: 5s
-    fail-fast: false
-    retry:
-      max-attempts: 6
-      initial-interval: 1s # 1000
-      max-intervals: 2s # 2000
-      multiplier: 1.1
+    config:
+     uri: http://localhost:8888
+     request-connect-timeout: 5000 #5s
+     request-read-timeout: 5000 #5s
+     fail-fast: false
+     retry:
+       max-attempts: 6
+       initial-interval: 1000 # 1s
+       max-intervals: 2 # 2s
+       multiplier: 1.1
   datasource:
     username: user
     password: password
