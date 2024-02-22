@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-service-04
+  labels:
+    app: catalog-service-04
+spec:
+  selector:
+    matchLabels:
+      app: catalog-service-04
+  template:
+    metadata:
+      labels:
+        app: catalog-service-04
+    spec:
+      containers:
+        - name: catalog-service-04
+          image: catalog-service-04
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9001
+          env:
+            - name: BPL_JVM_THREAD_COUNT
+              value: "50"
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://polar-postgres/polardb_catalog
+            - name: SPRING_PROFILES_ACTIVE
+              value: testdata
