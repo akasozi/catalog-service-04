@@ -9,7 +9,7 @@ server:
       min-spare: 5
 
 polar:
-  greeting: Welcome to the local book catalog!
+  greeting: Welcome to the local book catalog, This is a test!
 
 spring:
   application:
